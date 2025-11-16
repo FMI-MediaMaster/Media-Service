@@ -1,0 +1,25 @@
+meta {
+  name: Create anime
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8082/media
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "type": "anime",
+    "title": "Attack on Titan",
+    "episodes": 75,
+    "studio": "MAPPA"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

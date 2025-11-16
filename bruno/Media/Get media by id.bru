@@ -1,0 +1,16 @@
+meta {
+  name: Get media by id
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:8082/media/df1df14a-f5bc-4bbd-badb-7997b00a166d
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

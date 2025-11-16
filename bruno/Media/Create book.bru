@@ -1,0 +1,25 @@
+meta {
+  name: Create book
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8082/media
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "type": "book",
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "pages": 320
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

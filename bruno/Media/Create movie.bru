@@ -1,0 +1,25 @@
+meta {
+  name: Create movie
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8082/media
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "type": "movie",
+    "title": "Inception",
+    "director": "Christopher Nolan",
+    "durationMinutes": 148
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

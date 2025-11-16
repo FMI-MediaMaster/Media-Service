@@ -1,0 +1,23 @@
+meta {
+  name: Update media
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:8082/media/712dce6e-3224-4571-9657-05c590643a2d
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "The Hobbit - Extended Edition",
+    "pages": 350
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
