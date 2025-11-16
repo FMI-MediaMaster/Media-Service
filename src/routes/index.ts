@@ -1,10 +1,12 @@
-import userController from '@controllers/user';
 import { Router } from 'express';
-import { createRouter } from '@media-master/express-crud-router';
+import { bookRouter } from './media/book';
+import { movieRouter } from './media/movie';
+import { animeRouter } from './media/anime';
 
 const routes: Router = Router();
 
-routes.use('/users', createRouter(userController));
+routes.use('/books', bookRouter);
+routes.use('/movies', movieRouter);
+routes.use('/anime', animeRouter);
 
 export default routes;
-
