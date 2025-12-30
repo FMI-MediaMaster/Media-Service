@@ -17,7 +17,8 @@
       "@routes": ["src/routes/index"],
       "@schemas/*": ["src/schemas/*"],
       "@services/*": ["src/services/*"],
-      "@controllers/*": ["src/controllers/*"]
+      "@controllers/*": ["src/controllers/*"],
+      "@supabase": ["src/supabase/index"]
     }
   },
   "include": ["src"],
