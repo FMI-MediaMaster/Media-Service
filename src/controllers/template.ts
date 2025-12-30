@@ -15,7 +15,7 @@ export class Controller<T> extends BaseController {
     private idField: string;
     private nameField: string;
     private isMediaType: boolean;
-    private assureExistanceInTable: TableName;
+    private assureExistanceInTable: TableName | '';
     private deleteDependencies: boolean;
     private tableDependencies: TableName[];
 
@@ -33,14 +33,14 @@ export class Controller<T> extends BaseController {
         noDelete = false,
         noReadByName = false,
     }: {
-        resource: string;
+        resource: TableName;
         createSchema: ZodSchema;
         updateSchema: ZodSchema;
         requiresUser?: boolean;
         idField?: string;
         nameField?: string;
         isMediaType?: boolean;
-        assureExistanceInTable?: TableName;
+        assureExistanceInTable?: TableName | '';
         deleteDependencies?: boolean;
         tableDependencies?: TableName[];
         noDelete?: boolean;
@@ -89,7 +89,7 @@ export class Controller<T> extends BaseController {
         }
     };
 
-    protected filters(req: Request, filters: Record<string, unknown> = {}): Record<string, unknown> {
+    private filters(req: Request, filters: Record<string, unknown> = {}): Record<string, unknown> {
         return {
             ...filters,
             ...(this.requiresUser ? { user_id: req.userId } : {}),

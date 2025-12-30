@@ -3,7 +3,7 @@ import type { Tables } from '@types';
 import {
     UserAchievementCreateSchema,
     UserAchievementUpdateSchema,
-} from '@schemas/user_achievement';
+} from '@schemas/user_achievements';
 
 export default class UserAchivementController extends Controller<Tables<'user_achievement'>> {
     constructor() {
