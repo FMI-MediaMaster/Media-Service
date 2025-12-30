@@ -2,6 +2,10 @@ import Service from '@services/template';
 import { Request, Response } from 'express';
 import { ZodSchema } from 'zod';
 import { BaseController } from '@media-master/express-crud-router';
+import {
+    Tables,
+    TableName,
+} from '@types';
 
 export class Controller<T> extends BaseController {
     private service: Service<T>;
@@ -11,9 +15,9 @@ export class Controller<T> extends BaseController {
     private idField: string;
     private nameField: string;
     private isMediaType: boolean;
-    private validateForTable: string;
-    private dependencyInDelete: boolean;
-    private userDependency: boolean;
+    private assureExistanceInTable: TableName;
+    private deleteDependencies: boolean;
+    private tableDependencies: TableName[];
 
     constructor({
         resource,
@@ -23,10 +27,11 @@ export class Controller<T> extends BaseController {
         idField = 'id',
         nameField = 'name',
         isMediaType = false,
-        validateForTable = '',
-        dependencyInDelete = true,
-        userDependency = false,
+        assureExistanceInTable = '',
+        deleteDependencies = true,
+        tableDependencies = [],
         noDelete = false,
+        noReadByName = false,
     }: {
         resource: string;
         createSchema: ZodSchema;
@@ -35,10 +40,11 @@ export class Controller<T> extends BaseController {
         idField?: string;
         nameField?: string;
         isMediaType?: boolean;
-        validateForTable?: string;
-        dependencyInDelete?: boolean;
-        userDependency?: boolean;
+        assureExistanceInTable?: TableName;
+        deleteDependencies?: boolean;
+        tableDependencies?: TableName[];
         noDelete?: boolean;
+        noReadByName?: boolean
     }) {
         super();
         this.service = new Service(resource);
@@ -48,13 +54,30 @@ export class Controller<T> extends BaseController {
         this.idField = idField;
         this.nameField = nameField;
         this.isMediaType = isMediaType;
-        this.validateForTable = validateForTable;
-        this.dependencyInDelete = dependencyInDelete;
-        this.userDependency = userDependency;
+        this.assureExistanceInTable = assureExistanceInTable;
+        this.deleteDependencies = deleteDependencies;
+        this.tableDependencies = tableDependencies;
+
+        if(!noReadByName) {
+            this.readByName = async (req: Request, res: Response) => {
+                const response = await this.service.read({
+                    single: true,
+                    filters: this.filters(req, {
+                        [this.nameField]: req.query?.query ?? '',
+                    }),
+                }) as object;
+                return res.ok(response);
+            };
+        }
 
         if (!noDelete) {
             this.delete = async (req: Request, res: Response) => {
-                // TODO: handle dependencies, use this.dependencyInDelete and this.userDependency
+                if (this.deleteDependencies) {
+                    await this.service.handleDependencies({
+                        tables: this.tableDependencies,
+                        id: req.params.id,
+                    });
+                }
 
                 await this.service.delete({
                     filters: this.filters(req, {
@@ -69,15 +92,27 @@ export class Controller<T> extends BaseController {
     protected filters(req: Request, filters: Record<string, unknown> = {}): Record<string, unknown> {
         return {
             ...filters,
-            ...(this.requiresUser ? { userid: req.userId } : {}),
+            ...(this.requiresUser ? { user_id: req.userId } : {}),
         };
+    };
+
+    private async assertDependencyExists(id: string) {
+        if (!this.assureExistanceInTable) return;
+
+        const service = new Service<Tables<typeof this.assureExistanceInTable>>(this.assureExistanceInTable);
+        await service.read({
+            single: true,
+            filters: {
+                id,
+            },
+        });
     };
 
     public readAll = async (req: Request, res: Response) => {
         const response = await this.service.read({
             filters: this.filters(req),
-        })
-        return res.ok(response as object);
+        }) as object;
+        return res.ok(response);
     };
 
     public readById = async (req: Request, res: Response) => {
@@ -86,45 +121,41 @@ export class Controller<T> extends BaseController {
             filters: this.filters(req, {
                 [this.idField]: req.params.id,
             }),
-        })
-        return res.ok(response as object);
-    };
-
-    public readByName = async (req: Request, res: Response) => {
-        const response = await this.service.read({
-            single: true,
-            filters: this.filters(req, {
-                [this.nameField]: req.query?.query ?? '',
-            }),
-        })
-        return res.ok(response as object);
+        }) as object;
+        return res.ok(response);
     };
 
     public create = async (req: Request, res: Response) => {
         const body = this.createSchema.parse({
             ...req.body,
-            ...(this.requiresUser ? { userid: req.userId } : {}),
+            ...(this.requiresUser ? { user_id: req.userId } : {}),
         }) as T;
 
-        // TODO: Handle relationships, assure a foreign key is valid in the table specified in this.validateForTable
+        if (this.assureExistanceInTable) {
+            /* eslint-disable  @typescript-eslint/no-explicit-any */
+            await this.assertDependencyExists((body as any)[this.idField]);
+        }
+
         // TODO: Handle media types, use this.isMediaType
 
-        const response = await this.service.create({ body });
-        return res.created(response as object);
+        const response = await this.service.create({ body }) as object;
+        return res.created(response);
     };
 
     public update = async (req: Request, res: Response) => {
         const body = this.updateSchema.parse(req.body) as T;
 
-        // TODO: Handle relationships, assure a foreign key is valid in the table specified in this.validateForTable
+        if (this.assureExistanceInTable) {
+            await this.assertDependencyExists(req.params.id);
+        }
 
         const response = await this.service.update({
             body,
             filters: this.filters(req, {
                 [this.idField]: req.params.id,
             })
-        })
-        return res.ok(response as object);
+        }) as object;
+        return res.ok(response);
     };
 };
 

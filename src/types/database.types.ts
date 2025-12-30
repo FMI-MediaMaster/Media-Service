@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: '13.0.5'
   }
   public: {
     Tables: {
@@ -41,11 +41,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "anime_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'anime_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -94,11 +94,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "book_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'book_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -186,18 +186,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "game_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'game_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "game_parent_game_id_fkey"
-            columns: ["parent_game_id"]
+            foreignKeyName: 'game_parent_game_id_fkey'
+            columns: ['parent_game_id']
             isOneToOne: false
-            referencedRelation: "game"
-            referencedColumns: ["id"]
+            referencedRelation: 'game'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -222,11 +222,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "game_achievement_game_id_fkey"
-            columns: ["game_id"]
+            foreignKeyName: 'game_achievement_game_id_fkey'
+            columns: ['game_id']
             isOneToOne: false
-            referencedRelation: "game"
-            referencedColumns: ["id"]
+            referencedRelation: 'game'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -293,11 +293,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "manga_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'manga_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -346,18 +346,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_creator_creator_id_fkey"
-            columns: ["creator_id"]
+            foreignKeyName: 'media_creator_creator_id_fkey'
+            columns: ['creator_id']
             isOneToOne: false
-            referencedRelation: "creator"
-            referencedColumns: ["id"]
+            referencedRelation: 'creator'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_creator_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_creator_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -376,18 +376,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_genre_genre_id_fkey"
-            columns: ["genre_id"]
+            foreignKeyName: 'media_genre_genre_id_fkey'
+            columns: ['genre_id']
             isOneToOne: false
-            referencedRelation: "genre"
-            referencedColumns: ["id"]
+            referencedRelation: 'genre'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_genre_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_genre_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -406,18 +406,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_link_link_id_fkey"
-            columns: ["link_id"]
+            foreignKeyName: 'media_link_link_id_fkey'
+            columns: ['link_id']
             isOneToOne: false
-            referencedRelation: "link"
-            referencedColumns: ["id"]
+            referencedRelation: 'link'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_link_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_link_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -436,18 +436,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_platform_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_platform_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_platform_platform_id_fkey"
-            columns: ["platform_id"]
+            foreignKeyName: 'media_platform_platform_id_fkey'
+            columns: ['platform_id']
             isOneToOne: false
-            referencedRelation: "platform"
-            referencedColumns: ["id"]
+            referencedRelation: 'platform'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -466,18 +466,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_publisher_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_publisher_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_publisher_publisher_id_fkey"
-            columns: ["publisher_id"]
+            foreignKeyName: 'media_publisher_publisher_id_fkey'
+            columns: ['publisher_id']
             isOneToOne: false
-            referencedRelation: "publisher"
-            referencedColumns: ["id"]
+            referencedRelation: 'publisher'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -496,18 +496,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_retailer_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_retailer_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_retailer_retailer_id_fkey"
-            columns: ["retailer_id"]
+            foreignKeyName: 'media_retailer_retailer_id_fkey'
+            columns: ['retailer_id']
             isOneToOne: false
-            referencedRelation: "retailer"
-            referencedColumns: ["id"]
+            referencedRelation: 'retailer'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -529,18 +529,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_series_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_series_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_series_series_id_fkey"
-            columns: ["series_id"]
+            foreignKeyName: 'media_series_series_id_fkey'
+            columns: ['series_id']
             isOneToOne: false
-            referencedRelation: "series"
-            referencedColumns: ["id"]
+            referencedRelation: 'series'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -601,11 +601,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_user_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_user_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -627,18 +627,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_user_source_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_user_source_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_user_source_source_id_fkey"
-            columns: ["source_id"]
+            foreignKeyName: 'media_user_source_source_id_fkey'
+            columns: ['source_id']
             isOneToOne: false
-            referencedRelation: "source"
-            referencedColumns: ["id"]
+            referencedRelation: 'source'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -660,18 +660,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "media_user_tag_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'media_user_tag_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "media_user_tag_user_tag_id_fkey"
-            columns: ["user_tag_id"]
+            foreignKeyName: 'media_user_tag_user_tag_id_fkey'
+            columns: ['user_tag_id']
             isOneToOne: false
-            referencedRelation: "user_tag"
-            referencedColumns: ["id"]
+            referencedRelation: 'user_tag'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -699,11 +699,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "movie_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'movie_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -734,11 +734,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "note_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'note_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -811,11 +811,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "season_tv_series_id_fkey"
-            columns: ["tv_series_id"]
+            foreignKeyName: 'season_tv_series_id_fkey'
+            columns: ['tv_series_id']
             isOneToOne: false
-            referencedRelation: "tv_series"
-            referencedColumns: ["id"]
+            referencedRelation: 'tv_series'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -873,40 +873,37 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "tv_series_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'tv_series_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
       user_achievement: {
         Row: {
-          achievement_id: number | null
-          id: number
+          app_achievement_id: number
           unlock_date: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
-          achievement_id?: number | null
-          id?: never
+          app_achievement_id: number
           unlock_date?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
-          achievement_id?: number | null
-          id?: never
+          app_achievement_id?: number
           unlock_date?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_achievement_achievement_id_fkey"
-            columns: ["achievement_id"]
+            foreignKeyName: 'user_achievement_app_achievement_id_fkey'
+            columns: ['app_achievement_id']
             isOneToOne: false
-            referencedRelation: "app_achievement"
-            referencedColumns: ["id"]
+            referencedRelation: 'app_achievement'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -970,11 +967,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "wishlist_media_id_fkey"
-            columns: ["media_id"]
+            foreignKeyName: 'wishlist_media_id_fkey'
+            columns: ['media_id']
             isOneToOne: false
-            referencedRelation: "media"
-            referencedColumns: ["id"]
+            referencedRelation: 'media'
+            referencedColumns: ['id']
           },
         ]
       }
@@ -994,33 +991,33 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -1029,23 +1026,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -1054,23 +1051,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
+    | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -1079,40 +1076,40 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
+    | keyof DefaultSchema['Enums']
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
-  public: {
-    Enums: {},
-  },
+    public: {
+        Enums: {},
+    },
 } as const

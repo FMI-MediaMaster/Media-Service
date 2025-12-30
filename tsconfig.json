@@ -12,13 +12,13 @@
     "baseUrl": ".",
     "paths": {
       "@app": ["src/app"],
+      "@utils/*": ["src/utils/*"],
       "@types": ["src/types/index"],
       "@routes/*": ["src/routes/*"],
       "@routes": ["src/routes/index"],
       "@schemas/*": ["src/schemas/*"],
       "@services/*": ["src/services/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@supabase": ["src/supabase/index"]
+      "@controllers/*": ["src/controllers/*"]
     }
   },
   "include": ["src"],

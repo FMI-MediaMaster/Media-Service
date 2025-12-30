@@ -7,7 +7,8 @@ export default class CreatorController extends Controller<Tables<'creator'>> {
         super({
             resource: 'creator',
             createSchema: CreatorSchema,
-            updateSchema: CreatorSchema
+            updateSchema: CreatorSchema,
+            tableDependencies: ['media_creator'],
         });
     };
 };

@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{url}}/creators
+  url: {{url}}/user_achievements
   body: json
   auth: bearer
 }
@@ -16,8 +16,10 @@ auth:bearer {
 
 body:json {
   {
-    "name": "SuckerPunch"
+    "app_achievement_id": 1,
+    "unlock_date": "2025-12-11"
   }
+  
 }
 
 settings {

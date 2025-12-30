@@ -1,5 +1,6 @@
-import supabase from '@supabase';
+import supabase from '@utils/supabase';
 import errors from '@media-master/http-errors';
+import { TableName } from '@types';
 
 export default class Service<T> {
     private resource: string;
@@ -30,6 +31,24 @@ export default class Service<T> {
         return data;
     };
 
+    async handleDependencies({
+        tables,
+        id,
+    }: {
+        tables: TableName[];
+        id: string;
+    }): Promise<void> {
+        await Promise.all(
+            tables.map(table => this.solveQuery(
+                supabase
+                    .from(table)
+                    .delete()
+                    .eq(`${this.resource}_id`, id)
+            )
+            )
+        );
+    }
+
     async read({
         single = false,
         filters = {},
@@ -50,7 +69,6 @@ export default class Service<T> {
         let offset = 0;
 
         while (true) {
-            this.addFilters(query, filters);
             const data = await this.solveQuery(query.range(offset, offset + limit - 1));
             if (!data || data.length === 0) break;
 
