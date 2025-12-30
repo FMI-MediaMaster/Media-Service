@@ -8,7 +8,7 @@ export default class CreatorController extends Controller<Tables<'creator'>> {
             resource: 'creator',
             createSchema: CreatorSchema,
             updateSchema: CreatorSchema,
-            tableDependencies: ['media_creator'],
+            tableDependenciesToIdMap: { 'media_creator': 'creator_id' },
         });
     };
 };

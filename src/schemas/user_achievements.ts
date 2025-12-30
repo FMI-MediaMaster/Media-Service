@@ -7,11 +7,11 @@ export const UserAchievementCreateSchema = z.object({
         (arg) => (typeof arg === 'string' ? new Date(arg) : arg),
         z.date(),
     ),
-});
+}).strip();
 
-export const UserAchievementUpdateSchema = z.object({
-    unlock_date: z.preprocess(
-        (arg) => (typeof arg === 'string' ? new Date(arg) : arg),
-        z.date(),
-    ),
-});
+export const UserAchievementUpdateSchema = UserAchievementCreateSchema
+    .omit({
+        user_id: true,
+        app_achievement_id: true,
+    })
+    .partial();

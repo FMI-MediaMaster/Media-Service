@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/games/name?query=hollow knight
+  body: none
+  auth: none
+}
+
+params:query {
+  query: hollow knight
+}
+
+settings {
+  encodeUrl: true
+}

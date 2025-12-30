@@ -8,7 +8,7 @@ export default class AppAchievementController extends Controller<Tables<'app_ach
             resource: 'app_achievement',
             createSchema: AppAchievementCreateSchema,
             updateSchema: AppAchievementUpdateSchema,
-            tableDependencies: ['user_achievement'],
+            tableDependenciesToIdMap: { 'user_achievement': 'app_achievement_id' },
         });
     };
 };

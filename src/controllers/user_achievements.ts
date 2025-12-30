@@ -14,7 +14,6 @@ export default class UserAchivementController extends Controller<Tables<'user_ac
             requiresUser: true,
             idField: 'app_achievement_id',
             assureExistanceInTable: 'app_achievement',
-            deleteDependencies: false,
             noReadByName: true,
         });
     };

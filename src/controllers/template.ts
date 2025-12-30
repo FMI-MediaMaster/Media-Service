@@ -2,6 +2,7 @@ import Service from '@services/template';
 import { Request, Response } from 'express';
 import { ZodSchema } from 'zod';
 import { BaseController } from '@media-master/express-crud-router';
+import { createMediaType } from '@utils/media';
 import {
     Tables,
     TableName,
@@ -9,6 +10,7 @@ import {
 
 export class Controller<T> extends BaseController {
     private service: Service<T>;
+    private resource: TableName;
     private createSchema: ZodSchema;
     private updateSchema: ZodSchema;
     private requiresUser: boolean;
@@ -16,8 +18,7 @@ export class Controller<T> extends BaseController {
     private nameField: string;
     private isMediaType: boolean;
     private assureExistanceInTable: TableName | '';
-    private deleteDependencies: boolean;
-    private tableDependencies: TableName[];
+    private tableDependenciesToIdMap: Partial<Record<TableName, string>>;
 
     constructor({
         resource,
@@ -28,8 +29,7 @@ export class Controller<T> extends BaseController {
         nameField = 'name',
         isMediaType = false,
         assureExistanceInTable = '',
-        deleteDependencies = true,
-        tableDependencies = [],
+        tableDependenciesToIdMap = {},
         noDelete = false,
         noReadByName = false,
     }: {
@@ -41,13 +41,13 @@ export class Controller<T> extends BaseController {
         nameField?: string;
         isMediaType?: boolean;
         assureExistanceInTable?: TableName | '';
-        deleteDependencies?: boolean;
-        tableDependencies?: TableName[];
+        tableDependenciesToIdMap?: Partial<Record<TableName, string>>;
         noDelete?: boolean;
         noReadByName?: boolean
     }) {
         super();
         this.service = new Service(resource);
+        this.resource = resource;
         this.createSchema = createSchema;
         this.updateSchema = updateSchema;
         this.requiresUser = requiresUser;
@@ -55,26 +55,49 @@ export class Controller<T> extends BaseController {
         this.nameField = nameField;
         this.isMediaType = isMediaType;
         this.assureExistanceInTable = assureExistanceInTable;
-        this.deleteDependencies = deleteDependencies;
-        this.tableDependencies = tableDependencies;
+        this.tableDependenciesToIdMap = tableDependenciesToIdMap;
 
         if(!noReadByName) {
             this.readByName = async (req: Request, res: Response) => {
-                const response = await this.service.read({
+                const params = {
                     single: true,
                     filters: this.filters(req, {
                         [this.nameField]: req.query?.query ?? '',
                     }),
-                }) as object;
+                };
+
+                let response: object;
+                if (this.isMediaType) {
+                    const mediaResponse = await new Service<Tables<'media'>>('media').read(params) as Tables<'media'> | null;
+                    if (!mediaResponse?.id) {
+                        return res.ok(mediaResponse as object);
+                    }
+                    const { media_type, ...cleanMediaResponse } = mediaResponse;
+                    
+                    const gameResponse = await this.service.read({
+                        single: true,
+                        filters: this.filters(req, {
+                            'media_id': cleanMediaResponse['id'],
+                        }),
+                    }) as object;
+                    console.log(gameResponse);
+
+                    response = {
+                        ...cleanMediaResponse,
+                        ...gameResponse,
+                    };
+                } else {
+                    response = await this.service.read(params) as object;
+                }
                 return res.ok(response);
             };
         }
 
         if (!noDelete) {
             this.delete = async (req: Request, res: Response) => {
-                if (this.deleteDependencies) {
+                if (Object.keys(this.tableDependenciesToIdMap).length === 0) {
                     await this.service.handleDependencies({
-                        tables: this.tableDependencies,
+                        tableToIdMap: this.tableDependenciesToIdMap,
                         id: req.params.id,
                     });
                 }
@@ -84,6 +107,13 @@ export class Controller<T> extends BaseController {
                         [this.idField]: req.params.id,
                     }),
                 });
+
+                if (this.isMediaType) {
+                    await this.service.handleDependencies({
+                        tableToIdMap: { 'media': 'id' },
+                        id: req.params.id,
+                    });
+                }
                 return res.noContent();
             };
         }
@@ -136,9 +166,12 @@ export class Controller<T> extends BaseController {
             await this.assertDependencyExists((body as any)[this.idField]);
         }
 
-        // TODO: Handle media types, use this.isMediaType
-
-        const response = await this.service.create({ body }) as object;
+        const response = this.isMediaType
+            ? await createMediaType({
+                ...body,
+                'media_type': this.resource,
+            }) as object
+            : await this.service.create({ body }) as object;
         return res.created(response);
     };
 

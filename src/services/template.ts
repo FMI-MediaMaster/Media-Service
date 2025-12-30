@@ -1,6 +1,7 @@
 import supabase from '@utils/supabase';
 import errors from '@media-master/http-errors';
 import { TableName } from '@types';
+import errorMap from 'node_modules/zod/v3/locales/en.cjs';
 
 export default class Service<T> {
     private resource: string;
@@ -17,7 +18,7 @@ export default class Service<T> {
     private addFilters(query: any, filters: Record<string, unknown>) {
         for (const [key, value] of Object.entries(filters)) {
             if (key === 'name') {
-                query = query.ilike(key, value);
+                query = query.ilike(key, `%${value}%`);
             } else {
                 query = query.eq(key, value);
             }
@@ -32,22 +33,26 @@ export default class Service<T> {
     };
 
     async handleDependencies({
-        tables,
+        tableToIdMap,
         id,
     }: {
-        tables: TableName[];
+        tableToIdMap: Partial<Record<TableName, string>>;
         id: string;
     }): Promise<void> {
-        await Promise.all(
-            tables.map(table => this.solveQuery(
-                supabase
-                    .from(table)
-                    .delete()
-                    .eq(`${this.resource}_id`, id)
-            )
-            )
+        const entries = Object.entries(tableToIdMap) as [TableName, string][];
+        await entries.reduce(
+            (prevPromise, [table, idField]) =>
+                prevPromise.then(() =>
+                    this.solveQuery(
+                        supabase
+                            .from(table)
+                            .delete()
+                            .eq(idField, id)
+                    )
+                ),
+            Promise.resolve()
         );
-    }
+    };
 
     async read({
         single = false,
