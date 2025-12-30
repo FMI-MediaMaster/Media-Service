@@ -1,0 +1,26 @@
+meta {
+  name: Update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{url}}/seasons/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "tv_series_id": 2,
+    "name": "Genre 333"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,8 +1,11 @@
 import { Controller } from './template';
 import type { Tables } from '@types';
-import { AppAchievementCreateSchema, AppAchievementUpdateSchema } from '@schemas/app_achievements';
+import {
+    AppAchievementCreateSchema,
+    AppAchievementUpdateSchema
+} from '@schemas';
 
-export default class AppAchievementController extends Controller<Tables<'app_achievement'>> {
+export class AppAchievementController extends Controller<Tables<'app_achievement'>> {
     constructor() {
         super({
             resource: 'app_achievement',

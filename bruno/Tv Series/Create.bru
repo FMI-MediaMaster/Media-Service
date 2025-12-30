@@ -1,0 +1,72 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/tv_series
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "tmdb_id": 2288,
+    "name": "Prison Break",
+    "description": "Due to a political conspiracy, an innocent man is sent to death row and his only hope is his brother, who makes it his mission to deliberately get himself sent to the same prison in order to break the both of them out, from the inside out.",
+    "language": "en",
+    "creators": [
+      "Adelstein-Parouse Productions",
+      "20th Century Fox Television",
+      "RAT Entertainment",
+      "Dawn Olmstead Productions",
+      "Adelstein Productions",
+      "One Light Road Productions",
+      "Original Film"
+    ],
+    "status": "Ended",
+    "community_score": 81,
+    "release_date": "2005-08-29",
+    "seasons": [
+      {
+        "name": "Specials",
+        "cover": "https://image.tmdb.org/t/p/original/r4I83zsnxdkoyrVcYpnmgT9EcUD.jpg",
+        "nr_episodes": 10
+      },
+      {
+        "name": "Season 1",
+        "cover": "https://image.tmdb.org/t/p/original/jnMW2qcOjgwsjHx6QkOIeXShsLi.jpg",
+        "nr_episodes": 22
+      },
+      {
+        "name": "Season 2",
+        "cover": "https://image.tmdb.org/t/p/original/sRZyjc1BVnVFnTkeU33TG9C6Djd.jpg",
+        "nr_episodes": 22
+      },
+      {
+        "name": "Season 3",
+        "cover": "https://image.tmdb.org/t/p/original/vlEtqQFkz4oqXaKo5tQzR2gtmWw.jpg",
+        "nr_episodes": 13
+      },
+      {
+        "name": "Season 4",
+        "cover": "https://image.tmdb.org/t/p/original/6ixPqBilSC7H2IYEva4TqPvBYtp.jpg",
+        "nr_episodes": 22
+      },
+      {
+        "name": "Resurrection",
+        "cover": "https://image.tmdb.org/t/p/original/1YwzKyKGen3498Ui2AjD9FUTkG2.jpg",
+        "nr_episodes": 9
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

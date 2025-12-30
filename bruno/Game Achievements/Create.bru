@@ -1,0 +1,27 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/game_achievements
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "game_id": 1,
+    "name": "Achievement 1",
+    "description": "Finish the first mission"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

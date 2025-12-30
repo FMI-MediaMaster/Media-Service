@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/retailers/name?query=Fanatical
+  body: none
+  auth: none
+}
+
+params:query {
+  query: Fanatical
+}
+
+settings {
+  encodeUrl: true
+}

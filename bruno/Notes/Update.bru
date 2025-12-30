@@ -1,0 +1,25 @@
+meta {
+  name: Update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{url}}/notes/2
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "added_date": "2025-01-08T19:17:01.132830"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

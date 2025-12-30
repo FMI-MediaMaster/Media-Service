@@ -1,0 +1,28 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/media_users
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken2}}
+}
+
+body:json {
+  {
+    "media_id": 1,
+    "name": "alex",
+    "added_date": "2025-01-08T19:17:01.132830",
+    "modified_date": "2025-01-08T19:17:01.132830"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

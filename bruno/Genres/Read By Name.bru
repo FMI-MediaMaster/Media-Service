@@ -1,0 +1,23 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/genres/name?query=Genre 1
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: Genre 1
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+settings {
+  encodeUrl: true
+}

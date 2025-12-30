@@ -1,0 +1,54 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/anime
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "anilist_id": 5231,
+    "name": "Inazuma Eleven",
+    "description": "The main character, Endou Mamoru, is a very talented goalkeeper and the grandson of one of the strongest goalkeepers in Japan, who died before he was born. Even though his skills are incredible his school lacks a real soccer club as the 6 other members don't appear very interested even in training. But as soon as a mysterious forward called Gouenji moves to Endou's town, the young goalkeeper sets out to find and recruit members for his soccer team. (Source: Wikipedia)",
+    "release_date": "2008-10-05T00:00:00.000",
+    "genres": [
+      "Sports"
+    ],
+    "community_score": 76,
+    "critics_score": 76,
+    "status": "FINISHED",
+    "links": [
+      {
+        "name": "Netflix",
+        "href": "https://www.netflix.com/title/80007757"
+      },
+      {
+        "name": "Official Site",
+        "href": "https://www.primevideo.com/detail/0TN5ICF7AIEHNKWRVEQY2C6VCD"
+      },
+      {
+        "name": "Bilibili TV",
+        "href": "https://www.bilibili.tv/media/36801"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "href": "https://www.primevideo.com/-/es/detail/0TN5ICF7AIEHNKWRVEQY2C6VCD/ref=atv_dp_share_cu_r"
+      }
+    ],
+    "nr_episodes": 127,
+    "episode_duration": 25
+  }
+}
+
+settings {
+  encodeUrl: true
+}

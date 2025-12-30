@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/anime/name?query=Inazuma Eleven111
+  body: none
+  auth: none
+}
+
+params:query {
+  query: Inazuma Eleven111
+}
+
+settings {
+  encodeUrl: true
+}

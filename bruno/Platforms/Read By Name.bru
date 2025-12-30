@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/platforms/name?query=PS4
+  body: none
+  auth: none
+}
+
+params:query {
+  query: PS4
+}
+
+settings {
+  encodeUrl: true
+}

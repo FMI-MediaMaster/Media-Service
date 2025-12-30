@@ -1,0 +1,25 @@
+meta {
+  name: Update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{url}}/movies/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "language": "english"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,7 +1,6 @@
 import supabase from '@utils/supabase';
 import errors from '@media-master/http-errors';
 import { TableName } from '@types';
-import errorMap from 'node_modules/zod/v3/locales/en.cjs';
 
 export default class Service<T> {
     private resource: string;
@@ -18,7 +17,9 @@ export default class Service<T> {
     private addFilters(query: any, filters: Record<string, unknown>) {
         for (const [key, value] of Object.entries(filters)) {
             if (key === 'name') {
-                query = query.ilike(key, `%${value}%`);
+                query = query.ilike(key, value);
+            } else if (Array.isArray(value)){
+                query = query.in(key, value);
             } else {
                 query = query.eq(key, value);
             }
@@ -62,13 +63,13 @@ export default class Service<T> {
         filters?: Record<string, unknown>;
     }): Promise<T | T[]> {
         const query = this.table.select('*');
+        this.addFilters(query, filters);
         if (single) {
-            this.addFilters(query, filters);
             const data = await this.solveQuery(query.maybeSingle());
             if (!data) throw errors.badRequest(`Invalid ${Object.keys(filters)[0] || 'request'}`);
             return data;
         }
-
+        
         const allData: T[] = [];
         const limit = 1000;
         let offset = 0;

@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/sources/name?query=Steam
+  body: none
+  auth: none
+}
+
+params:query {
+  query: Steam
+}
+
+settings {
+  encodeUrl: true
+}

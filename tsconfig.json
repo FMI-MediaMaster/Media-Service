@@ -16,9 +16,9 @@
       "@types": ["src/types/index"],
       "@routes/*": ["src/routes/*"],
       "@routes": ["src/routes/index"],
-      "@schemas/*": ["src/schemas/*"],
+      "@schemas": ["src/schemas/index"],
       "@services/*": ["src/services/*"],
-      "@controllers/*": ["src/controllers/*"]
+      "@controllers": ["src/controllers/index"]
     }
   },
   "include": ["src"],

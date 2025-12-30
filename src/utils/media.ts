@@ -11,14 +11,6 @@ type Result = Record<string, any>;
 const createAttributes = (tableName: TableName, entry: any) =>
     tableName === 'link' ? entry : { name: entry };
 
-const getPlural = (mediaType: string) => {
-    return {
-        book: 'books',
-        game: 'games',
-        movie: 'movies',
-    }[mediaType] ?? mediaType;
-};
-
 const removeIfEmpty = (result: Result, key: string) => {
     if (result[key] && result[key].length === 0) {
         delete result[key];
@@ -122,7 +114,6 @@ const createResources = async (
 
 export const createMediaType = async (initialBody: Body) => {
     const mediaType: TableName = initialBody.media_type;
-    const mediaTypePlural = getPlural(mediaType);
     const resources = [
         'links',
         'genres',
@@ -131,26 +122,32 @@ export const createMediaType = async (initialBody: Body) => {
         'retailers',
         'publishers',
     ];
-    const result: Result = {
-        series: [],
-        related_medias: [],
-        [`related_${mediaTypePlural}`]: [],
-        media_series: [],
-        seasons: [],
-    };
+    const result: Result = {};
 
     const body = splitBody(initialBody);
     const resultMutex = new Mutex();
 
     // Create media
     const mediaService = new Service<Tables<'media'>>('media');
-    result.media = await mediaService.create({ body: body.mediaBody as Tables<'media'> });
+    const media = await mediaService.create({ body: body.mediaBody as Tables<'media'> });
 
+    // Create media-user
+    const mediaUserService = new Service<Tables<'media_user'>>('media_user');
+    const media_user = await mediaUserService.create({
+        body: {
+            media_id: media.id,
+            user_id: initialBody.user_id,
+        } as Tables<'media_user'>,
+    });
+    delete initialBody.user_id;
+    
     // Create mediaType entry
     const typeService = new Service<Tables<typeof mediaType>>(mediaType);
-    body[`${mediaType}Body`].media_id = result.media.id;
+    body[`${mediaType}Body`].media_id = media.id;
     const typeRecord = await typeService.create({ body: body[`${mediaType}Body`] as Tables<typeof mediaType> });
     Object.assign(result, typeRecord);
+    result.media = media;
+    result.media_user = media_user
 
     // Create other resources
     await Promise.all(
@@ -163,6 +160,7 @@ export const createMediaType = async (initialBody: Body) => {
     );
 
     // Handle seasons
+    result['seasons'] = [];
     if (body.seasonsBody?.seasons?.length > 0) {
         const seasonService = new Service<Tables<'season'>>('season');
         const seasonMutex = new Mutex();
@@ -176,6 +174,8 @@ export const createMediaType = async (initialBody: Body) => {
     removeIfEmpty(result, 'seasons');
 
     // Handle series
+    result['series'] = [];
+    result['media_series'] = [];
     if (body.seriesBody?.series_name?.length > 0) {
         const seriesService = new Service<Tables<'series'>>('series');
         const seriesList: any[] = [];
@@ -195,11 +195,8 @@ export const createMediaType = async (initialBody: Body) => {
                 await addToList(seriesList, record, seriesMutex);
             })
         );
-        removeIfEmpty(result, 'series');
     }
-
-    removeIfEmpty(result, 'related_medias');
-    removeIfEmpty(result, `related_${mediaTypePlural}`);
+    removeIfEmpty(result, 'series');
     removeIfEmpty(result, 'media_series');
 
     return result;

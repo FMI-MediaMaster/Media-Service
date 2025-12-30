@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/movies/name?query=Home Alone
+  body: none
+  auth: none
+}
+
+params:query {
+  query: Home Alone
+}
+
+settings {
+  encodeUrl: true
+}

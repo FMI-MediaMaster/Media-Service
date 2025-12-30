@@ -1,0 +1,72 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/books
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+      "name": "The Well of Ascension",
+      "creators": ["Brandon Sanderson"],
+      "platforms": ["PS7"],
+      "publishers": ["Team Cherry"],
+      "retailers": ["Barnes and nobles"],
+      "links": [
+        {
+          "name": "Goodreads",
+          "href": "https://www.goodreads.com/book/show/68429.The_Well_of_Ascension?from_search=true"
+        }
+      ],
+      "release_date": "2017-02-24 00:00:00.000",
+      "critics_score": 75,
+      "community_score": 88,
+      "description": "it bestows.",
+      "nr_pages": 590,
+      "genres": [
+        "Fantasy",
+        "Fiction",
+        "High Fantasy",
+        "Epic Fantasy",
+        "Audiobook",
+        "Adult",
+        "Magic"
+      ],
+      "format": "Hardcover",
+      "language": "English",
+      "seriesname": [
+        "The Mistborn Saga"
+      ],
+      "series": [
+        {
+          "name": "The Eleventh Metal",
+          "index": 0.5
+        },
+        {
+          "name": "Mistborn: The Final Empire",
+          "index": 1
+        },
+        {
+          "name": "The Well of Ascension",
+          "index": 2
+        },
+        {
+          "name": "aaa",
+          "index": 3
+        }
+      ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

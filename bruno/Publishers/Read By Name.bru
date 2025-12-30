@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/publishers/name?query=Team
+  body: none
+  auth: none
+}
+
+params:query {
+  query: Team
+}
+
+settings {
+  encodeUrl: true
+}

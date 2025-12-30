@@ -1,0 +1,25 @@
+meta {
+  name: Update
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{url}}/links/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+body:json {
+  {
+    "name": "SoockerPunch"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

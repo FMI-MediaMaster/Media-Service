@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/books/name?query=The Well of Ascension
+  body: none
+  auth: none
+}
+
+params:query {
+  query: The Well of Ascension
+}
+
+settings {
+  encodeUrl: true
+}

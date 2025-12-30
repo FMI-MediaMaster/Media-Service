@@ -19,6 +19,7 @@ export class Controller<T> extends BaseController {
     private isMediaType: boolean;
     private assureExistanceInTable: TableName | '';
     private tableDependenciesToIdMap: Partial<Record<TableName, string>>;
+    private tableMediaDependenciesToIdMap: Partial<Record<TableName, string>>;
 
     constructor({
         resource,
@@ -30,6 +31,7 @@ export class Controller<T> extends BaseController {
         isMediaType = false,
         assureExistanceInTable = '',
         tableDependenciesToIdMap = {},
+        tableMediaDependenciesToIdMap = {},
         noDelete = false,
         noReadByName = false,
     }: {
@@ -42,6 +44,7 @@ export class Controller<T> extends BaseController {
         isMediaType?: boolean;
         assureExistanceInTable?: TableName | '';
         tableDependenciesToIdMap?: Partial<Record<TableName, string>>;
+        tableMediaDependenciesToIdMap?: Partial<Record<TableName, string>>;
         noDelete?: boolean;
         noReadByName?: boolean
     }) {
@@ -56,6 +59,7 @@ export class Controller<T> extends BaseController {
         this.isMediaType = isMediaType;
         this.assureExistanceInTable = assureExistanceInTable;
         this.tableDependenciesToIdMap = tableDependenciesToIdMap;
+        this.tableMediaDependenciesToIdMap = tableMediaDependenciesToIdMap;
 
         if(!noReadByName) {
             this.readByName = async (req: Request, res: Response) => {
@@ -68,23 +72,25 @@ export class Controller<T> extends BaseController {
 
                 let response: object;
                 if (this.isMediaType) {
-                    const mediaResponse = await new Service<Tables<'media'>>('media').read(params) as Tables<'media'> | null;
-                    if (!mediaResponse?.id) {
-                        return res.ok(mediaResponse as object);
-                    }
-                    const { media_type, ...cleanMediaResponse } = mediaResponse;
-                    
-                    const gameResponse = await this.service.read({
-                        single: true,
-                        filters: this.filters(req, {
-                            'media_id': cleanMediaResponse['id'],
-                        }),
-                    }) as object;
-                    console.log(gameResponse);
+                    const mediaService = new Service<Tables<'media'>>('media');
+                    const mediaRows = await mediaService.read({
+                        filters: this.filters(req, { name: req.query?.query ?? '' }),
+                    }) as Tables<'media'>[];
 
+                    if (!mediaRows || mediaRows.length === 0) {
+                        return res.notFound('Invalid name');
+                    }
+
+                    const mediaIds = mediaRows.map(media => media.id);
+                    const resourceRow = await this.service.read({
+                        single: true,
+                        filters: this.filters(req, { media_id: mediaIds }),
+                    }) as object;
+                    
+                    const { media_type, id, ...media } = mediaRows.find(m => m.id === (resourceRow as any).media_id) as Tables<'media'>;
                     response = {
-                        ...cleanMediaResponse,
-                        ...gameResponse,
+                        ...resourceRow,
+                        ...media,
                     };
                 } else {
                     response = await this.service.read(params) as object;
@@ -95,10 +101,26 @@ export class Controller<T> extends BaseController {
 
         if (!noDelete) {
             this.delete = async (req: Request, res: Response) => {
-                if (Object.keys(this.tableDependenciesToIdMap).length === 0) {
+                if (Object.keys(this.tableDependenciesToIdMap).length !== 0) {
                     await this.service.handleDependencies({
                         tableToIdMap: this.tableDependenciesToIdMap,
                         id: req.params.id,
+                    });
+                }
+
+                let mediaId;
+                if (this.isMediaType) {
+                    const record = await this.service.read({
+                        single: true,
+                        filters: this.filters(req, {
+                            [this.idField]: req.params.id,
+                        }),
+                    });
+                    mediaId = (record as any)?.media_id;
+
+                    await this.service.handleDependencies({
+                        tableToIdMap: this.tableMediaDependenciesToIdMap,
+                        id: mediaId,
                     });
                 }
 
@@ -111,7 +133,7 @@ export class Controller<T> extends BaseController {
                 if (this.isMediaType) {
                     await this.service.handleDependencies({
                         tableToIdMap: { 'media': 'id' },
-                        id: req.params.id,
+                        id: mediaId,
                     });
                 }
                 return res.noContent();
@@ -119,10 +141,10 @@ export class Controller<T> extends BaseController {
         }
     };
 
-    private filters(req: Request, filters: Record<string, unknown> = {}): Record<string, unknown> {
+    private filters(req: Request, filters: Record<string, unknown> = {}, addUser = this.requiresUser): Record<string, unknown> {
         return {
             ...filters,
-            ...(this.requiresUser ? { user_id: req.userId } : {}),
+            ...(addUser ? { user_id: req.userId } : {}),
         };
     };
 
@@ -139,9 +161,50 @@ export class Controller<T> extends BaseController {
     };
 
     public readAll = async (req: Request, res: Response) => {
-        const response = await this.service.read({
-            filters: this.filters(req),
-        }) as object;
+        let response: object;
+        if(this.isMediaType) {
+            const mediaUserService = new Service<Tables<'media_user'>>('media_user');
+            const mediaService = new Service<Tables<'media'>>('media');
+            
+            const mediaUserItems = await mediaUserService.read({
+                filters: this.filters(req, {}, true),
+            }) as Tables<'media_user'>[];
+
+            if (!mediaUserItems || mediaUserItems.length === 0) {
+                return res.ok([]);
+            }
+
+            const mediaIds = mediaUserItems.map(item => item.media_id);
+            const medias = await mediaService.read({
+                filters: {
+                    id: mediaIds,
+                    media_type: this.resource
+                },
+            }) as Tables<'media'>[];
+
+            response = await Promise.all(
+                medias.map(async (media) => {
+                    const { media_type, id, ...cleanMedia } = media;
+                    console.log(media);
+                    const resourceData = await this.service.read({
+                        single: true,
+                        filters: this.filters(req, {
+                            media_id: media.id,
+                        }),
+                    }) as object;
+
+                    return {
+                        ...resourceData,
+                        ...cleanMedia,
+                    };
+                })
+            );
+        }
+        else {
+            response = await this.service.read({
+                filters: this.filters(req),
+            }) as object;
+        }
         return res.ok(response);
     };
 
@@ -163,13 +226,14 @@ export class Controller<T> extends BaseController {
 
         if (this.assureExistanceInTable) {
             /* eslint-disable  @typescript-eslint/no-explicit-any */
-            await this.assertDependencyExists((body as any)[this.idField]);
+            await this.assertDependencyExists((body as any)[`${this.assureExistanceInTable}_id`]);
         }
 
         const response = this.isMediaType
             ? await createMediaType({
                 ...body,
-                'media_type': this.resource,
+                user_id: req.userId,
+                media_type: this.resource,
             }) as object
             : await this.service.create({ body }) as object;
         return res.created(response);
@@ -177,11 +241,6 @@ export class Controller<T> extends BaseController {
 
     public update = async (req: Request, res: Response) => {
         const body = this.updateSchema.parse(req.body) as T;
-
-        if (this.assureExistanceInTable) {
-            await this.assertDependencyExists(req.params.id);
-        }
-
         const response = await this.service.update({
             body,
             filters: this.filters(req, {

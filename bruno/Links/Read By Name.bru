@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/links/name?query=test
+  body: none
+  auth: none
+}
+
+params:query {
+  query: test
+}
+
+settings {
+  encodeUrl: true
+}

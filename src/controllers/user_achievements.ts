@@ -3,9 +3,9 @@ import type { Tables } from '@types';
 import {
     UserAchievementCreateSchema,
     UserAchievementUpdateSchema,
-} from '@schemas/user_achievements';
+} from '@schemas';
 
-export default class UserAchivementController extends Controller<Tables<'user_achievement'>> {
+export class UserAchievementController extends Controller<Tables<'user_achievement'>> {
     constructor() {
         super({
             resource: 'user_achievement',

@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/tv_series/name?query=Prison Break
+  body: none
+  auth: none
+}
+
+params:query {
+  query: Prison Break
+}
+
+settings {
+  encodeUrl: true
+}
