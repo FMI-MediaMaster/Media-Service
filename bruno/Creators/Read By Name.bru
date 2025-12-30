@@ -1,0 +1,19 @@
+meta {
+  name: Read By Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/creator/name?query=EA
+  body: none
+  auth: none
+}
+
+params:query {
+  query: EA
+}
+
+settings {
+  encodeUrl: true
+}
